@@ -10,38 +10,79 @@ class DownloadButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        launchUrl(Uri.parse('https://drive.google.com/file/d/1HSIe7rdk8VtrAL4DQuybfMHQgDrQ6xNs/view?usp=sharing'));
+        launchUrl(Uri.parse('https://drive.google.com/drive/folders/1Qxji8W1gD_FBsgJfMR12UeuKxaVFi9dQ'));
       },
-      child: Container(
-        alignment: Alignment.center,
-        padding: const EdgeInsets.symmetric(vertical: defaultPadding/1.5,horizontal: defaultPadding*2),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-            boxShadow:const [
-              BoxShadow(color: Colors.blue,offset: Offset(0, -1),blurRadius: 5),
-              BoxShadow(color: Colors.red,offset: Offset(0, 1),blurRadius: 5),
-            ],
-          gradient: LinearGradient(
+      child: MouseRegion(
+        cursor: SystemMouseCursors.click,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 300),
+          alignment: Alignment.center,
+          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 18),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(24),
+            gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-                Colors.pink,
-                Colors.blue.shade900,
-              ]),
-        ),
-        child: Row(
-          children: [
-            Text(
-              'Download CV',
-              style: Theme.of(context).textTheme.labelSmall!.copyWith(
-                  color: Colors.white,
-                  letterSpacing: 1.2,
-                  fontWeight: FontWeight.bold),
+                Colors.blue.withOpacity(0.35),
+                Colors.pink.withOpacity(0.35),
+                Colors.white.withOpacity(0.10),
+              ],
             ),
-            const SizedBox(width: defaultPadding/3,),
-            const Icon(FontAwesomeIcons.download,color: Colors.white70,size: 15,)
-
-          ],
+            border: Border.all(
+              width: 2.5,
+              color: Colors.white.withOpacity(0.4),
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.blue.withOpacity(0.1),
+                blurRadius: 15,
+                offset: const Offset(0, 6),
+              ),
+              BoxShadow(
+                color: Colors.pink.withOpacity(0.08),
+                blurRadius: 10,
+                offset: const Offset(0, -2),
+              ),
+            ],
+            // Glassmorphism effect
+            backgroundBlendMode: BlendMode.overlay,
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ShaderMask(
+                shaderCallback: (Rect bounds) {
+                  return const LinearGradient(
+                    colors: [
+                      Color(0xFF6DD5FA), // light blue
+                      Color(0xFFF7797D), // light pink
+                    ],
+                  ).createShader(bounds);
+                },
+                child: const Icon(FontAwesomeIcons.download, color: Colors.white, size: 15),
+              ),
+              const SizedBox(width: 8),
+              Text(
+                'Download CV',
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+                style: Theme.of(context).textTheme.labelMedium!.copyWith(
+                  color: Colors.white.withOpacity(0.95),
+                  letterSpacing: 1.1,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 14,
+                  shadows: [
+                    Shadow(
+                      color: Colors.blue.withOpacity(0.12),
+                      blurRadius: 4,
+                      offset: const Offset(0, 1),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

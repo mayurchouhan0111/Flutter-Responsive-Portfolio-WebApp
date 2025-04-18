@@ -16,11 +16,11 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         scaffoldBackgroundColor: bgColor,
         useMaterial3: true,
-        textTheme: GoogleFonts.openSansTextTheme(Theme.of(context).textTheme)
+        textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme)
             .apply(bodyColor: Colors.white,)
             .copyWith(
-          bodyText1: const TextStyle(color: bodyTextColor),
-          bodyText2: const TextStyle(color: bodyTextColor),
+          bodyLarge: const TextStyle(color: bodyTextColor),
+          bodySmall: const TextStyle(color: bodyTextColor),
         ),
       ),
 

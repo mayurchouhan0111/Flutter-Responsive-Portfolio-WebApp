@@ -6,6 +6,7 @@ import '../../view model/responsive.dart';
 import 'components/drawer/drawer.dart';
 import 'components/navigation_button_list.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 class MainView extends StatelessWidget {
    const MainView({super.key, required this.pages});
   final List<Widget> pages;
@@ -24,13 +25,25 @@ class MainView extends StatelessWidget {
             if(Responsive.isLargeMobile(context))  const Row(children: [Spacer(),NavigationButtonList(),Spacer()],),
             Expanded(
                 flex: 9,
-                child: PageView(
+                child: PageView.builder(
                   scrollDirection: Axis.vertical,
                   physics: const NeverScrollableScrollPhysics(),
                   controller: controller,
-                  children: [
-                    ...pages
-                  ],
+                  itemCount: pages.length,
+                  itemBuilder: (context, index) {
+                    return AnimationLimiter(
+                      child: AnimationConfiguration.staggeredList(
+                        position: index,
+                        duration: const Duration(milliseconds: 700),
+                        child: SlideAnimation(
+                          verticalOffset: 50.0,
+                          child: FadeInAnimation(
+                            child: pages[index],
+                          ),
+                        ),
+                      ),
+                    );
+                  },
                 ),
             )
           ],
