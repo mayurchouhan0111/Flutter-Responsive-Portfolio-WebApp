@@ -27,7 +27,7 @@ List<CertificateModel> certificateList = [
     organization: 'Aanajawala',
     date: 'JAN 2024 - Present',
     skills: 'Leadership . Flutter . Backend Development . System Architecture',
-    credential: 'https://www.aanajawala.com',
+    credential: 'https://anajwala.com/'  // Updated URL with https protocol
   ),
 ];
 

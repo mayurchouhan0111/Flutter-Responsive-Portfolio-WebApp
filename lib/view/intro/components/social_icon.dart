@@ -14,12 +14,12 @@ class SocialMediaIcon extends StatelessWidget {
       onTap: onTap,
       borderRadius: BorderRadius.circular(20),
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: defaultPadding * 0.4),
+        padding: const EdgeInsets.symmetric(vertical: defaultPadding * 0.15),
         child: SvgPicture.asset(
           icon,
           color: Colors.white,
-          height: 18,
-          width: 18,
+          height: 13,
+          width: 13,
         ),
       ),
     );

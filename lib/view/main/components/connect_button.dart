@@ -12,14 +12,15 @@ class ConnectButton extends StatelessWidget {
       padding:  const EdgeInsets.symmetric(vertical: defaultPadding),
       child: InkWell(
         onTap: () {
-          launchUrl(Uri.parse('https://wa.me/03054200605'));
+          launchUrl(Uri.parse('https://wa.me/+916263850508'));
         },
         borderRadius: BorderRadius.circular(defaultPadding +10),
         child: Container(
-          height: 60,
-          width: 150,
+          // Responsive height and width
+          height: MediaQuery.sizeOf(context).width < 500 ? 44 : MediaQuery.sizeOf(context).width < 800 ? 52 : 60,
+          width: MediaQuery.sizeOf(context).width < 500 ? 110 : MediaQuery.sizeOf(context).width < 800 ? 130 : 150,
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(defaultPadding),
+              borderRadius: BorderRadius.circular(MediaQuery.sizeOf(context).width < 500 ? defaultPadding/1.5 : defaultPadding),
               gradient: LinearGradient(colors: [
                 Colors.pink,
                 Colors.blue.shade900,
@@ -33,13 +34,21 @@ class ConnectButton extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const Icon(FontAwesomeIcons.whatsapp,color: Colors.greenAccent,size: 15,),
-              const SizedBox(width : defaultPadding/4),
-              Text('Whatsapp',style: Theme.of(context).textTheme.labelSmall!.copyWith(
+              Icon(
+                FontAwesomeIcons.whatsapp,
+                color: Colors.greenAccent,
+                size: MediaQuery.sizeOf(context).width < 500 ? 13 : MediaQuery.sizeOf(context).width < 800 ? 14 : 15,
+              ),
+              SizedBox(width : MediaQuery.sizeOf(context).width < 500 ? defaultPadding/6 : defaultPadding/4),
+              Text(
+                'Whatsapp',
+                style: Theme.of(context).textTheme.labelSmall!.copyWith(
                   color: Colors.white,
                   letterSpacing: 1.2,
-                  fontWeight: FontWeight.bold
-              ),),
+                  fontWeight: FontWeight.bold,
+                  fontSize: MediaQuery.sizeOf(context).width < 500 ? 12 : MediaQuery.sizeOf(context).width < 800 ? 13 : 14,
+                ),
+              ),
             ],
           )
         ),
