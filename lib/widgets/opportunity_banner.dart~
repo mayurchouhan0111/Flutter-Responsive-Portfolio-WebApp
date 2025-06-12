@@ -1,3 +1,6 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+
 class DescriptionText extends StatelessWidget {
   const DescriptionText({super.key});
 
@@ -41,7 +44,8 @@ class DescriptionText extends StatelessWidget {
       ),
     );
   }
-}import 'package:flutter/material.dart';class DescriptionText extends StatelessWidget {
+}
+class DescriptionText extends StatelessWidget {
   const DescriptionText({super.key});
 
   @override

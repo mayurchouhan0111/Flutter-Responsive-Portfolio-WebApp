@@ -36,11 +36,11 @@ class ProjectDetail extends StatelessWidget {
         Text(
           project.description,
           style: bodyTextStyle.copyWith(
-
+            overflow: Maxline,
             color: Colors.grey,
             height: 1.5,
           ),
-          maxLines: Responsive.isMobile(context) ? 2 : 3,
+          maxLines: Responsive.isMobile(context) ? 2 : 4,
           overflow: TextOverflow.ellipsis,
         ),
         const Spacer(),

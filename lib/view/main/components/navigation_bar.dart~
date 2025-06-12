@@ -24,6 +24,10 @@ class TopNavigationBar extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          // Logo or menu button
+
+           MenuButton(onTap: onMenuTap)
+              ,
           const Spacer(flex: 2),
           // Navigation buttons for larger screens
           if (1.sw >= 700.w)

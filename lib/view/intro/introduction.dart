@@ -1,90 +1,71 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_portfolio/view%20model/responsive.dart';
-import 'package:flutter_portfolio/view/intro/components/intro_body.dart';
-import 'package:flutter_portfolio/view/intro/components/side_menu_button.dart';
-import 'package:flutter_portfolio/view/intro/components/social_media_list.dart';
-import 'package:flutter_portfolio/widgets/wave_background.dart';
+
+import '../../view model/responsive.dart';
+import 'components/intro_body.dart';
+import 'components/partical.dart';
+import 'components/side_menu_button.dart';
+import 'components/social_media_list.dart';
 
 class Introduction extends StatelessWidget {
   const Introduction({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final Size screenSize = MediaQuery.of(context).size;
+
     return Container(
       width: double.infinity,
-      height: MediaQuery.of(context).size.height,
+      height: screenSize.height,
+      color:  Colors.transparent, // background color
       child: Stack(
         children: [
-          WaveBackground(
-            height: 350,
-            child: const SizedBox.shrink(),
-          ),
+          const ParticleBackground(numberOfParticles: 150, color:  Color(0xCCFFFFFF)),
+
           Responsive(
-            desktop: Row(
-              children: [
-                SizedBox(width: MediaQuery.sizeOf(context).width * 0.01),
-                MenuButton(onTap: () => Scaffold.of(context).openDrawer()),
-                SizedBox(width: MediaQuery.sizeOf(context).width * 0.02),
-                const SocialMediaIconList(),
-                SizedBox(width: MediaQuery.sizeOf(context).width * 0.07),
-                const Expanded(child: IntroBody()),
-              ],
-            ),
-            tablet: Row(
-              children: [
-                SizedBox(width: MediaQuery.sizeOf(context).width * 0.01),
-                MenuButton(onTap: () => Scaffold.of(context).openDrawer()),
-                SizedBox(width: MediaQuery.sizeOf(context).width * 0.02),
-                const SocialMediaIconList(),
-                SizedBox(width: MediaQuery.sizeOf(context).width * 0.07),
-                const Expanded(child: IntroBody()),
-              ],
-            ),
-            largeMobile: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 16.0, vertical: 24.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Row(
-                      children: [
-                        MenuButton(
-                            onTap: () => Scaffold.of(context).openDrawer()),
-                        const Spacer(),
-                      ],
-                    ),
-                    const SizedBox(height: 24),
-                    const SocialMediaIconList(),
-                    const SizedBox(height: 24),
-                    const IntroBody(),
-                  ],
-                ),
-              ),
-            ),
-            mobile: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 16.0, vertical: 24.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Row(
-                      children: [
-                        MenuButton(
-                            onTap: () => Scaffold.of(context).openDrawer()),
-                        const Spacer(),
-                      ],
-                    ),
-                    const SizedBox(height: 16),
-                    const SocialMediaIconList(),
-                    const SizedBox(height: 16),
-                    const IntroBody(),
-                  ],
-                ),
-              ),
-            ),
+            desktop: _buildDesktopTabletLayout(context, screenSize),
+            tablet: _buildDesktopTabletLayout(context, screenSize),
+            largeMobile: _buildMobileLayout(context, screenSize, spacing: 24),
+            mobile: _buildMobileLayout(context, screenSize, spacing: 16),
           ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDesktopTabletLayout(BuildContext context, Size size) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: size.width * 0.02),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          MenuButton(onTap: () => Scaffold.of(context).openDrawer()),
+          SizedBox(width: size.width * 0.02),
+          const SocialMediaIconList(),
+          SizedBox(width: size.width * 0.07),
+          const Expanded(child: IntroBody()),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildMobileLayout(BuildContext context, Size size,
+      {required double spacing}) {
+    return SingleChildScrollView(
+      padding: EdgeInsets.symmetric(horizontal: spacing, vertical: spacing + 8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Row(
+            children: [
+              MenuButton(onTap: () => Scaffold.of(context).openDrawer()),
+              const Spacer(),
+            ],
+          ),
+          SizedBox(height: spacing),
+          const SocialMediaIconList(),
+          SizedBox(height: spacing),
+          const IntroBody(),
         ],
       ),
     );

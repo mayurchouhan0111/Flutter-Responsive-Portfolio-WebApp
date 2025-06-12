@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../res/Text_style.dart';
 import '../../../res/constants.dart';
 import 'animated_texts_componenets.dart';
 import 'combine_subtitle.dart';
@@ -74,9 +75,10 @@ class _IntroTextContent extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment:
-            isMobile ? CrossAxisAlignment.center : CrossAxisAlignment.start,
+        isMobile ? CrossAxisAlignment.center : CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          // Main heading
           AnimationConfiguration.staggeredList(
             position: 0,
             duration: const Duration(milliseconds: 700),
@@ -88,12 +90,11 @@ class _IntroTextContent extends StatelessWidget {
                   child: Text(
                     'My Personal Portfolio',
                     textAlign: isMobile ? TextAlign.center : TextAlign.left,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w900,
-                      fontSize:
-                          isMobile ? screenWidth * 0.06 : screenWidth * 0.04,
-                      height: 1.1,
+                    style: headingTextStyle.copyWith(
+                      fontSize: isMobile ? screenWidth * 0.06 : screenWidth * 0.04,
+                      color: Color(0xFF102027), // Dark Navy
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 1.2,
                     ),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
@@ -102,7 +103,10 @@ class _IntroTextContent extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: 12),
+
+          const SizedBox(height: 12),
+
+          // Subtitle (Flutter Developer)
           AnimationConfiguration.staggeredList(
             position: 1,
             duration: const Duration(milliseconds: 700),
@@ -116,22 +120,18 @@ class _IntroTextContent extends StatelessWidget {
                       children: [
                         TextSpan(
                           text: 'Flutter ',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: isMobile
-                                ? screenWidth * 0.04
-                                : screenWidth * 0.025,
-                            fontWeight: FontWeight.bold,
+                          style: headingTextStyle.copyWith(
+                            color: Color(0xFF37474F), // Charcoal gray
+                            fontWeight: FontWeight.w600,
+                            fontSize: isMobile ? screenWidth * 0.04 : screenWidth * 0.025,
                           ),
                         ),
                         TextSpan(
                           text: 'Developer',
-                          style: TextStyle(
-                            color: Colors.pinkAccent,
-                            fontSize: isMobile
-                                ? screenWidth * 0.04
-                                : screenWidth * 0.025,
-                            fontWeight: FontWeight.bold,
+                          style: headingTextStyle.copyWith(
+                            color: Color(0xFF263238), // Blue-Gray or Amber `0xFFFF8F00`
+                            fontWeight: FontWeight.w600,
+                            fontSize: isMobile ? screenWidth * 0.04 : screenWidth * 0.025,
                           ),
                         ),
                       ],
@@ -144,7 +144,10 @@ class _IntroTextContent extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: 16),
+
+          const SizedBox(height: 16),
+
+          // Description
           AnimationConfiguration.staggeredList(
             position: 2,
             duration: const Duration(milliseconds: 700),
@@ -154,13 +157,12 @@ class _IntroTextContent extends StatelessWidget {
                 child: Container(
                   constraints: BoxConstraints(maxWidth: maxTextWidth),
                   child: Text(
-                    "I'm capable of creating excellent mobile apps, handling every step from concept to deployment.",
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontSize:
-                          isMobile ? screenWidth * 0.035 : screenWidth * 0.02,
+                    "I specialize in building high-performance Flutter apps with clean architecture, smooth animations, and professional UI/UX.",
+                    style: bodyTextStyle.copyWith(
+                      color: Color(0xFF455A64), // Cool Gray
+                      fontSize: isMobile ? screenWidth * 0.035 : screenWidth * 0.02,
                       fontWeight: FontWeight.w400,
-                      height: 1.5,
+                      height: 1.6,
                     ),
                     textAlign: isMobile ? TextAlign.center : TextAlign.left,
                     maxLines: isMobile ? 6 : 5,
@@ -170,7 +172,10 @@ class _IntroTextContent extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: 32),
+
+          const SizedBox(height: 32),
+
+          // CTA Button
           AnimationConfiguration.staggeredList(
             position: 3,
             duration: const Duration(milliseconds: 700),
@@ -183,7 +188,7 @@ class _IntroTextContent extends StatelessWidget {
                     constraints: BoxConstraints(maxWidth: maxButtonWidth),
                     child: SizedBox(
                       width: isMobile ? double.infinity : null,
-                      child: DownloadButton(),
+                      child: DownloadButton(), // Button should contrast well (dark border or white)
                     ),
                   ),
                 ),
@@ -195,3 +200,6 @@ class _IntroTextContent extends StatelessWidget {
     );
   }
 }
+
+
+

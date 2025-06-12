@@ -9,7 +9,7 @@ import '../../../view model/getx_controllers/projects_controller.dart';
 class ProjectGrid extends StatelessWidget {
   final int crossAxisCount;
   final double ratio;
-  ProjectGrid({super.key, this.crossAxisCount = 3, this.ratio = 1.3});
+  ProjectGrid({super.key, this.crossAxisCount = 3, this.ratio = 1.3, required projects, required int maxDescriptionLines});
   final controller = Get.put(ProjectController());
 
   @override

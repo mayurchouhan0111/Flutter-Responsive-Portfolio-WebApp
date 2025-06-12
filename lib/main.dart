@@ -28,15 +28,11 @@ class MyApp extends StatelessWidget {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-            scaffoldBackgroundColor: bgColor,
+            colorScheme: ColorScheme.fromSeed(seedColor: primaryColor),
+            scaffoldBackgroundColor: primaryColor,
             useMaterial3: true,
             textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme)
-                .apply(bodyColor: Colors.white)
-                .copyWith(
-                  bodyLarge: TextStyle(color: bodyTextColor, fontSize: 18.sp),
-                  bodySmall: TextStyle(color: bodyTextColor, fontSize: 12.sp),
-                ),
+                .apply(bodyColor: primaryColor),
           ),
           home: const SplashView(),
         );
