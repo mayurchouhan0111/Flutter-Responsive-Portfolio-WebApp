@@ -1,3 +1,3 @@
 [build]
-command = "./install-flutter.sh && flutter build web"
+command = "bash -c 'source ./install-flutter.sh && flutter build web'"
 publish = "build/web"
