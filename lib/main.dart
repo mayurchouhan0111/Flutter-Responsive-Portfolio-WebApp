@@ -21,9 +21,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      designSize: const Size(1440, 900), // Set to your main design size
+      designSize: const Size(1440, 900),
       minTextAdapt: true,
       splitScreenMode: true,
+      useInheritedMediaQuery: true,
+      ensureScreenSize: false,
       builder: (context, child) {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
@@ -32,12 +34,12 @@ class MyApp extends StatelessWidget {
             scaffoldBackgroundColor: primaryColor,
             useMaterial3: true,
             textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme)
-                .apply(bodyColor: primaryColor),
+                .apply(bodyColor: Colors.white), // Fixed: Use white text instead of primaryColor
           ),
-          home: const SplashView(),
+          home: const ResponsiveLayout(child: SplashView()),
         );
       },
-      child: const ResponsiveLayout(child: SplashView()),
+      // Removed the conflicting child parameter completely
     );
   }
 }
@@ -54,9 +56,12 @@ class ResponsiveLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        if (constraints.maxWidth >= Breakpoints.desktop) {
+        // Use MediaQuery for more reliable screen width detection
+        double screenWidth = MediaQuery.of(context).size.width;
+
+        if (screenWidth >= Breakpoints.desktop) {
           return _DesktopLayout(child: child);
-        } else if (constraints.maxWidth >= Breakpoints.tablet) {
+        } else if (screenWidth >= Breakpoints.tablet) {
           return _TabletLayout(child: child);
         } else {
           return _MobileLayout(child: child);
@@ -75,7 +80,8 @@ class _DesktopLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        constraints: const BoxConstraints(maxWidth: 1200),
+        constraints: BoxConstraints(maxWidth: 1200.w),
+        padding: EdgeInsets.symmetric(horizontal: 16.w),
         child: child,
       ),
     );
@@ -91,7 +97,8 @@ class _TabletLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        constraints: const BoxConstraints(maxWidth: 900),
+        constraints: BoxConstraints(maxWidth: 900.w),
+        padding: EdgeInsets.symmetric(horizontal: 16.w),
         child: child,
       ),
     );
@@ -105,6 +112,9 @@ class _MobileLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return child;
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 16.w),
+      child: child,
+    );
   }
 }

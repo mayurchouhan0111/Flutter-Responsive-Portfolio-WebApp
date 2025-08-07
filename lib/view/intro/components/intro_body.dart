@@ -1,205 +1,220 @@
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../res/Text_style.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import '../../../res/constants.dart';
 import 'animated_texts_componenets.dart';
-import 'combine_subtitle.dart';
-import 'description_text.dart';
 import 'download_button.dart';
-import 'headline_text.dart';
-import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
-class IntroBody extends StatelessWidget {
+class IntroBody extends StatefulWidget {
   const IntroBody({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final isMobile = screenWidth < 700;
-    final isTablet = screenWidth >= 700 && screenWidth < 1080;
-    final isDesktop = screenWidth >= 1080;
-
-    return Container(
-      constraints: BoxConstraints(
-        minHeight: isMobile ? 500 : 400,
-      ),
-      child: isMobile
-          ? SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SizedBox(height: 24),
-                  AnimatedImageContainer(
-                    width: screenWidth * 0.3,
-                    height: screenWidth * 0.35,
-                  ),
-                  SizedBox(height: 32),
-                  _IntroTextContent(isMobile: true),
-                ],
-              ),
-            )
-          : Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Expanded(
-                  flex: 3,
-                  child: _IntroTextContent(isMobile: false),
-                ),
-                SizedBox(width: 48),
-                Expanded(
-                  flex: 2,
-                  child: AnimatedImageContainer(
-                    width: isDesktop ? screenWidth * 0.15 : screenWidth * 0.2,
-                    height: isDesktop ? screenWidth * 0.18 : screenWidth * 0.23,
-                  ),
-                ),
-              ],
-            ),
-    );
-  }
+  State<IntroBody> createState() => _IntroBodyState();
 }
 
-class _IntroTextContent extends StatelessWidget {
-  final bool isMobile;
-  const _IntroTextContent({required this.isMobile});
+class _IntroBodyState extends State<IntroBody> with TickerProviderStateMixin {
+  late AnimationController _fadeController;
+  late AnimationController _slideController;
+
+  @override
+  void initState() {
+    super.initState();
+    _fadeController = AnimationController(
+      duration: const Duration(milliseconds: 1200),
+      vsync: this,
+    );
+    _slideController = AnimationController(
+      duration: const Duration(milliseconds: 800),
+      vsync: this,
+    );
+
+    _fadeController.forward();
+    Future.delayed(const Duration(milliseconds: 300), () {
+      _slideController.forward();
+    });
+  }
+
+  @override
+  void dispose() {
+    _fadeController.dispose();
+    _slideController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    double maxTextWidth = isMobile ? screenWidth * 0.9 : screenWidth * 0.45;
-    double maxButtonWidth = isMobile ? screenWidth * 0.8 : 350;
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final isMobile = constraints.maxWidth < 700;
+        final isTablet = constraints.maxWidth >= 700 && constraints.maxWidth < 1080;
 
-    return AnimationLimiter(
+        return AnimationLimiter(
+          child: Container(
+            constraints: BoxConstraints(
+              minHeight: isMobile ? 500.h : 400.h,
+            ),
+            child: isMobile
+                ? _buildMobileLayout()
+                : _buildDesktopLayout(isTablet),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildMobileLayout() {
+    return SingleChildScrollView(
       child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment:
-        isMobile ? CrossAxisAlignment.center : CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          // Main heading
-          AnimationConfiguration.staggeredList(
-            position: 0,
-            duration: const Duration(milliseconds: 700),
-            child: SlideAnimation(
-              horizontalOffset: 50.0,
-              child: FadeInAnimation(
-                child: Container(
-                  constraints: BoxConstraints(maxWidth: maxTextWidth),
-                  child: Text(
-                    'My Personal Portfolio',
-                    textAlign: isMobile ? TextAlign.center : TextAlign.left,
-                    style: headingTextStyle.copyWith(
-                      fontSize: isMobile ? screenWidth * 0.06 : screenWidth * 0.04,
-                      color: Color(0xFF102027), // Dark Navy
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 1.2,
-                    ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-              ),
-            ),
-          ),
-
-          const SizedBox(height: 12),
-
-          // Subtitle (Flutter Developer)
-          AnimationConfiguration.staggeredList(
-            position: 1,
-            duration: const Duration(milliseconds: 700),
-            child: SlideAnimation(
-              horizontalOffset: 50.0,
-              child: FadeInAnimation(
-                child: Container(
-                  constraints: BoxConstraints(maxWidth: maxTextWidth),
-                  child: Text.rich(
-                    TextSpan(
-                      children: [
-                        TextSpan(
-                          text: 'Flutter ',
-                          style: headingTextStyle.copyWith(
-                            color: Color(0xFF37474F), // Charcoal gray
-                            fontWeight: FontWeight.w600,
-                            fontSize: isMobile ? screenWidth * 0.04 : screenWidth * 0.025,
-                          ),
-                        ),
-                        TextSpan(
-                          text: 'Developer',
-                          style: headingTextStyle.copyWith(
-                            color: Color(0xFF263238), // Blue-Gray or Amber `0xFFFF8F00`
-                            fontWeight: FontWeight.w600,
-                            fontSize: isMobile ? screenWidth * 0.04 : screenWidth * 0.025,
-                          ),
-                        ),
-                      ],
-                    ),
-                    textAlign: isMobile ? TextAlign.center : TextAlign.left,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-              ),
-            ),
-          ),
-
-          const SizedBox(height: 16),
-
-          // Description
-          AnimationConfiguration.staggeredList(
-            position: 2,
-            duration: const Duration(milliseconds: 700),
-            child: SlideAnimation(
-              horizontalOffset: 50.0,
-              child: FadeInAnimation(
-                child: Container(
-                  constraints: BoxConstraints(maxWidth: maxTextWidth),
-                  child: Text(
-                    "I specialize in building high-performance Flutter apps with clean architecture, smooth animations, and professional UI/UX.",
-                    style: bodyTextStyle.copyWith(
-                      color: Color(0xFF455A64), // Cool Gray
-                      fontSize: isMobile ? screenWidth * 0.035 : screenWidth * 0.02,
-                      fontWeight: FontWeight.w400,
-                      height: 1.6,
-                    ),
-                    textAlign: isMobile ? TextAlign.center : TextAlign.left,
-                    maxLines: isMobile ? 6 : 5,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-              ),
-            ),
-          ),
-
-          const SizedBox(height: 32),
-
-          // CTA Button
-          AnimationConfiguration.staggeredList(
-            position: 3,
-            duration: const Duration(milliseconds: 700),
-            child: SlideAnimation(
-              horizontalOffset: 50.0,
-              child: FadeInAnimation(
-                child: Align(
-                  alignment: isMobile ? Alignment.center : Alignment.centerLeft,
-                  child: Container(
-                    constraints: BoxConstraints(maxWidth: maxButtonWidth),
-                    child: SizedBox(
-                      width: isMobile ? double.infinity : null,
-                      child: DownloadButton(), // Button should contrast well (dark border or white)
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
+          SizedBox(height: 40.h),
+          _buildAnimatedImage(true),
+          SizedBox(height: 40.h),
+          _buildTextContent(true),
         ],
       ),
     );
   }
+
+  Widget _buildDesktopLayout(bool isTablet) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Expanded(
+          flex: 3,
+          child: _buildTextContent(false),
+        ),
+        SizedBox(width: 60.w),
+        Expanded(
+          flex: 2,
+          child: _buildAnimatedImage(false),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildAnimatedImage(bool isMobile) {
+    return AnimationConfiguration.staggeredList(
+      position: 0,
+      duration: const Duration(milliseconds: 1000),
+      child: SlideAnimation(
+        horizontalOffset: isMobile ? 0 : 100,
+        verticalOffset: isMobile ? 50 : 0,
+        child: FadeInAnimation(
+          child: AnimatedImageContainer(
+            width: isMobile ? 200.w : 300.w,
+            height: isMobile ? 240.h : 360.h,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTextContent(bool isMobile) {
+    return AnimationConfiguration.staggeredList(
+      position: 1,
+      duration: const Duration(milliseconds: 800),
+      child: SlideAnimation(
+        horizontalOffset: isMobile ? 0 : -100,
+        child: FadeInAnimation(
+          child: Column(
+            crossAxisAlignment: isMobile
+                ? CrossAxisAlignment.center
+                : CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              _buildMainHeading(isMobile),
+              SizedBox(height: 16.h),
+              _buildSubtitle(isMobile),
+              SizedBox(height: 24.h),
+              _buildDescription(isMobile),
+              SizedBox(height: 40.h),
+              _buildCTAButton(isMobile),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildMainHeading(bool isMobile) {
+    return ShaderMask(
+      shaderCallback: (bounds) => const LinearGradient(
+        colors: [
+          Color(0xFF263238), // Dark blue-grey
+          Color(0xFF37474F), // Medium blue-grey
+          Color(0xFF455A64), // Light blue-grey
+        ],
+      ).createShader(bounds),
+      child: Text(
+        'My Personal Portfolio',
+        textAlign: isMobile ? TextAlign.center : TextAlign.left,
+        style: TextStyle(
+          fontSize: isMobile ? 32.sp : 48.sp,
+          fontWeight: FontWeight.w900,
+          letterSpacing: -0.5,
+          height: 1.1,
+          color: Colors.white,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSubtitle(bool isMobile) {
+    return Text.rich(
+      TextSpan(
+        children: [
+          TextSpan(
+            text: 'Flutter ',
+            style: TextStyle(
+              fontSize: isMobile ? 24.sp : 32.sp,
+              fontWeight: FontWeight.w700,
+              color: const Color(0xFF37474F),
+            ),
+          ),
+          TextSpan(
+            text: 'Developer',
+            style: TextStyle(
+              fontSize: isMobile ? 24.sp : 32.sp,
+              fontWeight: FontWeight.w700,
+              foreground: Paint()
+                ..shader = const LinearGradient(
+                  colors: [
+                    Color(0xFF00BCD4),
+                    Color(0xFF64FFDA),
+                  ],
+                ).createShader(const Rect.fromLTWH(0, 0, 200, 70)),
+            ),
+          ),
+        ],
+      ),
+      textAlign: isMobile ? TextAlign.center : TextAlign.left,
+    );
+  }
+
+  Widget _buildDescription(bool isMobile) {
+    return Container(
+      constraints: BoxConstraints(
+        maxWidth: isMobile ? double.infinity : 500.w,
+      ),
+      child: Text(
+        "I specialize in building high-performance Flutter applications with clean architecture, smooth animations, and exceptional user experiences that drive business results.",
+        textAlign: isMobile ? TextAlign.center : TextAlign.left,
+        style: TextStyle(
+          fontSize: isMobile ? 16.sp : 18.sp,
+          color: const Color(0xFF607D8B),
+          height: 1.6,
+          fontWeight: FontWeight.w400,
+          letterSpacing: 0.3,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCTAButton(bool isMobile) {
+    return Align(
+      alignment: isMobile ? Alignment.center : Alignment.centerLeft,
+      child: const DownloadButton(),
+    );
+  }
 }
-
-
-

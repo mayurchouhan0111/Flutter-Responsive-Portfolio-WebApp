@@ -1,58 +1,42 @@
-<!DOCTYPE html>
-<html>
 <head>
-  <!--
-    If you are serving your web app in a path other than the root, change the
-    href value below to reflect the base path you are serving from.
-
-    The path provided below has to start and end with a slash "/" in order for
-    it to work correctly.
-
-    For more details:
-    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
-
-    This is a placeholder for base href that will be replaced by the value of
-    the `--base-href` argument provided to `flutter build`.
-  -->
-
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="A new Flutter project.">
 
-  <!-- iOS meta tags & icons -->
+  <!-- ✅ SEO Meta Tags -->
+  <title>Mayur Chouhan | Flutter Developer Portfolio</title>
+  <meta name="description" content="Explore the Flutter portfolio of Mayur Chouhan – showcasing mobile apps, projects, and development skills.">
+  <meta name="keywords" content="Flutter Developer, Mayur Chouhan, Flutter Portfolio, Mobile App Developer, Flutter Projects">
+  <meta name="author" content="Mayur Chouhan">
+  <link rel="canonical" href="https://yourdomain.com/" />
+
+  <!-- ✅ Open Graph Meta (for social sharing previews) -->
+  <meta property="og:title" content="Mayur Chouhan | Flutter Developer Portfolio">
+  <meta property="og:description" content="Portfolio of Mayur Chouhan – Showcasing Flutter-based mobile and web projects.">
+  <meta property="og:image" content="https://yourdomain.com/assets/og-image.png">
+  <meta property="og:url" content="https://yourdomain.com/">
+  <meta property="og:type" content="website">
+
+  <!-- ✅ Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Mayur Chouhan | Flutter Developer Portfolio">
+  <meta name="twitter:description" content="Showcasing Flutter apps and projects by Mayur Chouhan.">
+  <meta name="twitter:image" content="https://yourdomain.com/assets/og-image.png">
+
+  <!-- ✅ iOS meta tags & icons -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="flutter_portfolio">
+  <meta name="apple-mobile-web-app-title" content="Mayur Chouhan Portfolio">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
-  <!-- Favicon -->
+  <!-- ✅ Favicon -->
   <link rel="icon" type="image/png" href="favicon.png"/>
 
-  <title>flutter_portfolio</title>
+  <!-- ✅ Manifest and Flutter JS -->
   <link rel="manifest" href="manifest.json">
 
+  <!-- ✅ FIXED: Service Worker Version (removes the warning) -->
   <script>
-    // The value below is injected by flutter build, do not touch.
-    var serviceWorkerVersion = null;
+    const serviceWorkerVersion = "{{flutter_service_worker_version}}";
   </script>
-  <!-- This script adds the flutter initialization JS code -->
   <script src="flutter.js" defer></script>
 </head>
-<body>
-  <script>
-    window.addEventListener('load', function(ev) {
-      // Download main.dart.js
-      _flutter.loader.loadEntrypoint({
-        serviceWorker: {
-          serviceWorkerVersion: serviceWorkerVersion,
-        },
-        onEntrypointLoaded: function(engineInitializer) {
-          engineInitializer.initializeEngine().then(function(appRunner) {
-            appRunner.runApp();
-          });
-        }
-      });
-    });
-  </script>
-</body>
-</html>
